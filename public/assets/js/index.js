@@ -36,15 +36,12 @@ const getNotes = () =>
     },
   })
     .then((response) => {
-      console.log("API Response:", response); // Log the response object
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json(); // Parse JSON from the response
+      console.log("API Response:", response); // Log response object
+      return response.json(); // Parse JSON
     })
     .catch((err) => {
       console.error("Fetch Error:", err);
-      return []; // Return an empty array on error
+      return []; // Fallback to an empty array
     });
 
 const saveNote = (note) =>
@@ -139,14 +136,9 @@ const handleRenderBtns = () => {
 };
 
 const renderNoteList = async (notes) => {
-  let jsonNotes;
-  try {
-    jsonNotes = await notes.json(); // Parse JSON
-    console.log("Rendering Notes:", jsonNotes); // Log the notes to be rendered
-  } catch (error) {
-    console.error("Error parsing notes:", error);
-    jsonNotes = []; // Fallback to an empty array
-  }
+  console.log("Rendering Notes:", notes); // Log the incoming notes array
+
+  let jsonNotes = notes; // Use notes directly (it's already parsed)
 
   if (window.location.pathname === "/notes") {
     noteList.forEach((el) => (el.innerHTML = "")); // Clear existing list
